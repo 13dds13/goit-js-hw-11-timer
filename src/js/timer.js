@@ -1,46 +1,47 @@
-import timerMarkup from '../templates/timer-markup.hbs';
+import timerMarkupTpl from '../templates/timer-markup.hbs';
 
-let timerIdNum = 1;
+class CountdownTimer {
 
-createTimerMarkup(timerIdNum);
+    static TIMER_ID_NUM = 1;
+    
+    constructor(targetDate, parent) {
+        this.id = `timer-${CountdownTimer.TIMER_ID_NUM}`;
+        this.targetDate = targetDate;
+        this.parent = parent;
+        CountdownTimer.TIMER_ID_NUM += 1;
+    }
 
-const refs = {
-    days: document.querySelector('span[data-value="days"]'),
-    hours: document.querySelector('span[data-value="hours"]'),
-    mins: document.querySelector('span[data-value="mins"]'),
-    secs: document.querySelector('span[data-value="secs"]'),
+    addTimerMarkup(place, cb) {
+        this.parent.insertAdjacentHTML(`${place}`, cb());
+    }
+    
+    timeData() {
+        const intervalId = setInterval((() => {
+            const timeDiff = new Date(this.targetDate) - Date.now();
+
+            const days = String(Math.floor(timeDiff / (1000 * 60 * 60 * 24))).padStart(2, 0);
+            const hours = String(Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, 0);
+            const mins = String(Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, 0);
+            const secs = String(Math.floor((timeDiff % (1000 * 60)) / 1000)).padStart(2, 0);
+
+            document.querySelector('span[data-value="days"]').textContent = days;
+            document.querySelector('span[data-value="hours"]').textContent = hours;
+            document.querySelector('span[data-value="mins"]').textContent = mins;
+            document.querySelector('span[data-value="secs"]').textContent = secs;
+
+            if (days === '00' && hours === '00' && mins === '00' && secs === '00') {
+                clearInterval(intervalId);
+                return;
+            }
+        }), 1000)
+    }
+
 };
 
-const targetDate = new Date('2022/01/1');
+const parent = document.body;
 
-const currentTime = Date.now();
+const newTimer = new CountdownTimer('2022/01/01', parent);
 
-console.log(currentTime);
+newTimer.addTimerMarkup('afterbegin', timerMarkupTpl);
 
-console.log(targetDate);
-
-
-
-function createTimerMarkup(id) {
-    document.body.insertAdjacentHTML('afterbegin', timerMarkup(id));
-    timerIdNum += 1;
-}
-
-function time() {
-    return targetDate - Date.now();
-}
-
-setInterval((() => {
-    const days = Math.floor(time() / (1000 * 60 * 60 * 24));
-    
-    const hours = Math.floor((time() % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
-    const mins = Math.floor((time() % (1000 * 60 * 60)) / (1000 * 60));
-    
-    const secs = Math.floor((time() % (1000 * 60)) / 1000);
-    
-    refs.days.textContent = days;
-    refs.hours.textContent = hours;
-    refs.mins.textContent = mins;
-    refs.secs.textContent = secs;
-}), 1000);
+newTimer.timeData();
