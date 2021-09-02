@@ -20,6 +20,7 @@ console.log(currentTime);
 console.log(targetDate);
 
 
+
 function createTimerMarkup(id) {
     document.body.insertAdjacentHTML('afterbegin', timerMarkup(id));
     timerIdNum += 1;
