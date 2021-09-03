@@ -16,10 +16,11 @@ export class CountdownTimer {
     }
     
     findAllSpan() {
-        const daysSpan = document.querySelector('span[data-value="days"]');
-        const hoursSpan = document.querySelector('span[data-value="hours"]');
-        const minsSpan = document.querySelector('span[data-value="mins"]');
-        const secsSpan = document.querySelector('span[data-value="secs"]');
+        const container = document.querySelector(`[id=${this.id}`);
+        const daysSpan = container.querySelector('span[data-value="days"]');
+        const hoursSpan = container.querySelector('span[data-value="hours"]');
+        const minsSpan = container.querySelector('span[data-value="mins"]');
+        const secsSpan = container.querySelector('span[data-value="secs"]');
 
         return { daysSpan, hoursSpan, minsSpan, secsSpan };
     }
