@@ -12,7 +12,7 @@ class CountdownTimer {
     }
 
     addTimerMarkup(place, cb) {
-        this.parent.insertAdjacentHTML(`${place}`, cb());
+        this.parent.insertAdjacentHTML(`${place}`, cb(this));
     }
     
     timeData() {
