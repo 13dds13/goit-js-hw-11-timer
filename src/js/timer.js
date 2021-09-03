@@ -1,13 +1,11 @@
 import {CountdownTimer} from './classTimer'
-import timerMarkupTpl from '../templates/timer-markup.hbs';
 
-const parent = document.body;
-const targetDate = '2022/01/01';
-const targetEvent = 'New Year party!';
-const timerPlaceTarget = 'afterbegin';
+const timerOptions = {
+    parent: document.body,
+    targetDate: '2022/01/01',
+    eventType: 'New Year party!',
+};
 
-const newTimer = new CountdownTimer(targetDate, targetEvent, parent);
+const customTimer = new CountdownTimer(timerOptions);
 
-newTimer.addTimerMarkup(timerPlaceTarget, timerMarkupTpl);
-
-newTimer.timerCountdown();
+customTimer.timerCountdown();
