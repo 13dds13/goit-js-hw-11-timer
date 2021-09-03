@@ -3,6 +3,7 @@ import timerMarkupTpl from '../templates/timer-markup.hbs';
 class CountdownTimer {
 
     static TIMER_ID_NUM = 1;
+    static DELAY = 1000;
     
     constructor(targetDate, eventType, parent) {
         this.id = `timer-${CountdownTimer.TIMER_ID_NUM}`;
@@ -25,36 +26,35 @@ class CountdownTimer {
         return { daysSpan, hoursSpan, minsSpan, secsSpan };
     }
 
-    timeData() {
+    timerCountdown() {
         const intervalId = setInterval((() => {
             const timeDiff = new Date(this.targetDate) - Date.now();
             const refs = this.findAllSpan();
+            const { daysSpan, hoursSpan, minsSpan, secsSpan } = refs;
 
             const days = String(Math.floor(timeDiff / (1000 * 60 * 60 * 24))).padStart(2, 0);
             const hours = String(Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, 0);
             const mins = String(Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, 0);
             const secs = String(Math.floor((timeDiff % (1000 * 60)) / 1000)).padStart(2, 0);
 
-            refs.daysSpan.textContent = days;
-            refs.hoursSpan.textContent = hours;
-            refs.minsSpan.textContent = mins;
-            refs.secsSpan.textContent = secs;
+            daysSpan.textContent = days;
+            hoursSpan.textContent = hours;
+            minsSpan.textContent = mins;
+            secsSpan.textContent = secs;
 
             if (days === '00' && hours === '00' && mins === '00' && secs === '00') {
                 clearInterval(intervalId);
                 return;
             }
-        }), 1000)
+        }), CountdownTimer.DELAY)
     }
 
 };
 
-
 const parent = document.body;
 
 const newTimer = new CountdownTimer('2022/01/01', 'New Year', parent);
-console.log(newTimer);
 
 newTimer.addTimerMarkup('afterbegin', timerMarkupTpl);
 
-newTimer.timeData();
+newTimer.timerCountdown();
