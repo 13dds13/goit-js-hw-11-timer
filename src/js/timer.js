@@ -38,6 +38,7 @@ class CountdownTimer {
 
 };
 
+
 const parent = document.body;
 
 const newTimer = new CountdownTimer('2022/01/01', parent);
