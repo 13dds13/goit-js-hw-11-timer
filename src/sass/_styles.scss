@@ -1,0 +1,28 @@
+//стили набросал некорректно, времени было в обрез ;)
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+}
+
+.timer {
+  padding: 20px;
+}
+
+.event {
+  padding: 40px;
+}
+
+.time-container {
+  display: flex;
+}
+
+.field {
+  display: flex;
+  padding: 20px;
+}
+
+.value {
+  font-weight: 700;
+  color: #0b59be;
+}
